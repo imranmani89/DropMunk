@@ -82,6 +82,37 @@
       margin-bottom: 10px;
       z-index: 2;
     }
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 0 0 9px;
+    }
+    .category-badge {
+      border: 1px solid #dfe5ef;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #fff;
+      color: #53617a;
+      font: inherit;
+      font-size: 10px;
+      line-height: 1.2;
+      cursor: pointer;
+    }
+    .category-badge:hover {
+      border-color: #b7c6f5;
+      background: #f5f7ff;
+      color: #315bd6;
+    }
+    .category-badge.active {
+      border-color: #315bd6;
+      background: #315bd6;
+      color: #fff;
+    }
+    .category-badge:focus-visible {
+      outline: 2px solid #7895f1;
+      outline-offset: 2px;
+    }
     .search-icon {
       position: absolute;
       top: 9px;
@@ -413,6 +444,15 @@
     </button>
   </header>
 
+  <div id="category-filters" class="category-filters" role="group" aria-label="Filter by file type">
+    <button class="category-badge active" type="button" data-category="all" aria-pressed="true">All</button>
+    <button class="category-badge" type="button" data-category="documents" aria-pressed="false">Documents</button>
+    <button class="category-badge" type="button" data-category="images" aria-pressed="false">Images</button>
+    <button class="category-badge" type="button" data-category="video" aria-pressed="false">Video</button>
+    <button class="category-badge" type="button" data-category="audio" aria-pressed="false">Audio</button>
+    <button class="category-badge" type="button" data-category="archives" aria-pressed="false">Archives</button>
+    <button class="category-badge" type="button" data-category="other" aria-pressed="false">Other</button>
+  </div>
   <div class="search-wrap">
     <span class="search-icon" aria-hidden="true">⌕</span>
     <input id="search-downloads" type="search" aria-label="Search downloads" placeholder="Search files or source sites" autocomplete="off">
@@ -429,18 +469,6 @@
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
           <option value="interrupted">Interrupted</option>
-        </select>
-      </label>
-      <label class="filter-field">
-        <span>File type</span>
-        <select id="category-filter" class="filter-select" aria-label="Filter by file type">
-          <option value="all">All file types</option>
-          <option value="documents">Documents</option>
-          <option value="images">Images</option>
-          <option value="video">Video</option>
-          <option value="audio">Audio</option>
-          <option value="archives">Archives</option>
-          <option value="other">Other</option>
         </select>
       </label>
     </div>

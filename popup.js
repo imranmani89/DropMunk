@@ -316,17 +316,20 @@ function renderDownloads(downloads) {
       ));
     }
 
-    const progress = document.createElement('progress');
-    if (totalBytes > 0) {
-      progress.max = totalBytes;
-      progress.value = Math.min(bytesReceived, totalBytes);
-    } else if (item.state === 'complete') {
-      progress.max = 100;
-      progress.value = 100;
-    } else {
-      progress.removeAttribute('value');
+    const isCancelled = item.state === 'interrupted' && item.error === 'USER_CANCELED';
+    if (!isCancelled) {
+      const progress = document.createElement('progress');
+      if (totalBytes > 0) {
+        progress.max = totalBytes;
+        progress.value = Math.min(bytesReceived, totalBytes);
+      } else if (item.state === 'complete') {
+        progress.max = 100;
+        progress.value = 100;
+      } else {
+        progress.removeAttribute('value');
+      }
+      card.appendChild(progress);
     }
-    card.appendChild(progress);
 
     const details = document.createElement('div');
     details.className = 'details';
@@ -499,9 +502,16 @@ document.getElementById('status-filter').addEventListener('change', (event) => {
   filters.status = event.target.value;
   renderDownloads(latestDownloads);
 });
-document.getElementById('category-filter').addEventListener('change', (event) => {
-  filters.category = event.target.value;
-  renderDownloads(latestDownloads);
+document.querySelectorAll('.category-badge').forEach((badge) => {
+  badge.addEventListener('click', () => {
+    filters.category = badge.dataset.category;
+    document.querySelectorAll('.category-badge').forEach((categoryBadge) => {
+      const isActive = categoryBadge === badge;
+      categoryBadge.classList.toggle('active', isActive);
+      categoryBadge.setAttribute('aria-pressed', String(isActive));
+    });
+    renderDownloads(latestDownloads);
+  });
 });
 document.getElementById('clear-completed').addEventListener('click', clearCompletedDownloads);
 document.getElementById('view-all-downloads').addEventListener('click', openDownloadsPage);
